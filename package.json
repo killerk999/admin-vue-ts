@@ -20,6 +20,8 @@
     ]
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^2.0.10",
+    "element-plus": "^2.2.22",
     "vue": "^3.2.37"
   },
   "devDependencies": {
@@ -38,7 +40,7 @@
     "prettier": "^2.7.1",
     "typescript": "^4.6.4",
     "vite": "^3.1.0",
-    "vue-tsc": "^0.40.4"
+    "vue-tsc": "1.0.9"
   },
   "config": {
     "commitizen": {
