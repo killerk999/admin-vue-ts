@@ -1,8 +1,10 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Login from './views/login/index.vue'
+</script>
 
 <template>
   <div>
-    <el-button type="primary" plain>Primary</el-button>
+    <Login />
   </div>
 </template>
 

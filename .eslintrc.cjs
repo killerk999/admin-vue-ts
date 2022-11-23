@@ -31,5 +31,7 @@ module.exports = {
     ],
     '@typescript-eslint/no-explicit-any': 'off',
     'prettier/prettier': 'error',
+    // 允许vue组件单个单词命名
+    'vue/multi-word-component-names': 0,
   },
 }
