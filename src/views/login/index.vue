@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Lock, User } from '@element-plus/icons-vue'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { ElNotification, FormInstance } from 'element-plus'
 import { loginApi } from '@/api/modules/login'
 import { useGlobalStore } from '@/stores'
@@ -38,7 +38,6 @@ const onSubmit = (formEl: FormInstance | undefined) => {
     try {
       // 1.执行登录接口
       const { data } = await loginApi(form.value)
-      console.log(data)
 
       globalStore.setToken(data.token)
 
@@ -58,6 +57,17 @@ const onSubmit = (formEl: FormInstance | undefined) => {
     }
   })
 }
+
+onMounted(() => {
+  // 监听enter事件（调用登录）
+  document.onkeydown = (e: any) => {
+    e = window.event || e
+    if (e.code === 'Enter' || e.code === 'enter' || e.code === 'NumpadEnter') {
+      if (loading.value) return
+      onSubmit(loginFormRef.value)
+    }
+  }
+})
 </script>
 
 <template>

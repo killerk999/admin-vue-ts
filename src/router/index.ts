@@ -2,14 +2,15 @@ import { AxiosCanceler } from '@/api/helper/axiosCancel'
 import NProgress from '@/config/nprogress'
 import { useGlobalStore } from '@/stores'
 import { ElNotification } from 'element-plus'
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import { staticRouter } from './modules/staticRouter'
+import { createRouter, createWebHistory } from 'vue-router'
+import { errorRouter, staticRouter } from './modules/staticRouter'
 
 const axiosCanceler = new AxiosCanceler()
 
 const router = createRouter({
   history: createWebHistory(),
-  routes: [...staticRouter],
+  routes: [...staticRouter, ...errorRouter],
+  strict: false,
 })
 
 /**
@@ -26,8 +27,10 @@ router.beforeEach((to, from, next) => {
   if (to.path === '/login') return next()
 
   // 4.判断是否有 Token，没有重定向到 login
-  const globalStore = useGlobalStore()
-  if (!globalStore.globalData.token) return next({ path: '/login', replace: true })
+  // const globalStore = useGlobalStore()
+  const token = localStorage.getItem('token')
+
+  if (!token) return next({ path: '/login', replace: true })
 
   // // 5.如果没有菜单列表，就重新请求菜单列表并添加动态路由
   // const authStore = AuthStore()

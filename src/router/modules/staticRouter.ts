@@ -1,3 +1,4 @@
+import { HOME_URL } from '@/config/config'
 import { RouteRecordRaw } from 'vue-router'
 
 /**
@@ -21,7 +22,7 @@ export const staticRouter: RouteRecordRaw[] = [
     name: 'layout',
     component: () => import('@/layouts/index.vue'),
     // component: () => import("@/layouts/indexAsync.vue"),
-    redirect: '/home/index',
+    redirect: HOME_URL,
     children: [],
   },
 ]
