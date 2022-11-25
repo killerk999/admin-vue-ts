@@ -1,7 +1,15 @@
 <script setup lang="ts">
 import { Lock, User } from '@element-plus/icons-vue'
 import { ref } from 'vue'
-import type { FormInstance } from 'element-plus'
+import { ElNotification, FormInstance } from 'element-plus'
+import { loginApi } from '@/api/modules/login'
+import { useGlobalStore } from '@/stores'
+import { getTimeState } from '@/utils/getTime'
+import { useRouter } from 'vue-router'
+// import { login } from '@/api'
+
+const router = useRouter()
+const globalStore = useGlobalStore()
 
 const loginFormRef = ref<FormInstance>()
 const loginRules = ref({
@@ -14,21 +22,39 @@ const loginRules = ref({
     { min: 6, max: 18, message: 'Length should be 6 to 18', trigger: 'blur' },
   ],
 })
+
+const loading = ref(false)
 const form = ref({
-  username: '',
-  password: '',
+  username: 'admin',
+  password: '123456',
 })
 
 const onSubmit = (formEl: FormInstance | undefined) => {
   if (!formEl) return
-  formEl.validate(valid => {
-    if (valid) {
-      console.log(form.value)
+  formEl.validate(async valid => {
+    if (!valid) return
+    loading.value = true
 
-      console.log('submit!')
-    } else {
-      console.log('error submit!')
-      return false
+    try {
+      // 1.执行登录接口
+      const { data } = await loginApi(form.value)
+      console.log(data)
+
+      globalStore.setToken(data.token)
+
+      // 2.添加动态路由
+      // 3.清除上个账号的 tab 信息
+
+      // 4.跳转到首页
+      router.push('/home/index')
+      ElNotification({
+        title: getTimeState(),
+        message: '欢迎登录',
+        type: 'success',
+        duration: 3000,
+      })
+    } finally {
+      loading.value = false
     }
   })
 }
@@ -47,7 +73,7 @@ const onSubmit = (formEl: FormInstance | undefined) => {
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="onSubmit(loginFormRef)">登录</el-button>
+          <el-button type="primary" @click="onSubmit(loginFormRef)" :loading="loading">登录</el-button>
         </el-form-item>
       </el-form>
     </div>
