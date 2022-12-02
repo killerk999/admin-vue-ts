@@ -86,4 +86,8 @@ onMounted(() => {
   </el-form>
 </template>
 
-<style scoped></style>
+<style scoped>
+.el-button {
+  width: 100%;
+}
+</style>

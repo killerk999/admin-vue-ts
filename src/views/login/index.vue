@@ -12,7 +12,7 @@ import LoginForm from './components/LoginForm.vue'
       <div class="login-form">
         <div class="login-logo">
           <img class="login-icon" src="@/assets/images/logo.svg" alt="" />
-          <h2 class="logo-text">Geeker-Admin</h2>
+          <h2 class="logo-text">Vue-Admin</h2>
         </div>
         <LoginForm />
       </div>
